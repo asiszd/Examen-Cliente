@@ -17,6 +17,7 @@ export class EditarUsuario implements OnInit {
   usuario = new Usuario();
   roles: Rol[] = [];
   esMayorDeEdad: boolean = true;
+  fechaString: string = '';
 
   constructor(private service: Ws, private router: Router) {}
 
@@ -30,14 +31,26 @@ export class EditarUsuario implements OnInit {
           this.usuario.rolId = c;
         }
       });
+      this.fechaString = this.formatFecha(this.usuario.fechaNacimiento);
     }, 500);
+  }
+
+  formatFecha(fecha: Date): string {
+    const date = new Date(fecha);
+    const anio = date.getFullYear();
+    const mes = String(date.getMonth() + 1).padStart(2, '0');
+    const dia = String(date.getDate()).padStart(2, '0');
+    return anio + '-' + mes + '-' + dia;
+  }
+
+  stringAFecha(fecha: string): Date {
+    const [anio, mes, dia] = fecha.split('-').map(Number);
+    return new Date(anio, mes - 1, dia);
   }
 
   buscar() {
     this.usuario.id = Number(localStorage.getItem('id'));
-    console.log(localStorage.getItem('id'));
     this.service.buscarUsuario(this.usuario).subscribe((data) => {
-      console.log(JSON.stringify(data));
       this.usuario = data;
     });
   }
@@ -69,7 +82,7 @@ export class EditarUsuario implements OnInit {
       return;
     }
 
-    const nacimiento = new Date(this.usuario.fechaNacimiento);
+    const nacimiento = new Date(this.fechaString);
     const hoy = new Date();
     let edad = hoy.getFullYear() - nacimiento.getFullYear();
     const mes = hoy.getMonth() - nacimiento.getMonth();
@@ -77,9 +90,7 @@ export class EditarUsuario implements OnInit {
     if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
       edad--;
     }
-
     this.esMayorDeEdad = edad >= 18;
-    console.log(this.esMayorDeEdad);
   }
 
   validacionCaracteres(event: KeyboardEvent): void {
@@ -93,6 +104,7 @@ export class EditarUsuario implements OnInit {
   }
 
   guardar() {
+    this.usuario.fechaNacimiento = this.stringAFecha(this.fechaString);
     this.service.editarUsuario(this.usuario).subscribe(
       (data) => {
         Swal.fire({

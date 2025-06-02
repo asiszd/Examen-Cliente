@@ -15,6 +15,7 @@
           placeholder="Ingresa el nuevo ID"
           [(ngModel)]="usuario.id"
           required=""
+          disabled=""
           #id="ngModel"
         />
         <div *ngIf="id.invalid && id.touched">
@@ -31,7 +32,6 @@
           placeholder="Ingresa el NOMBRE"
           [(ngModel)]="usuario.nombre"
           (keydown)="validacionCaracteres($event)"
-          (ngModelChange)="actualizarCorreo()"
           required=""
           #nombre="ngModel"
         />
@@ -51,7 +51,6 @@
           placeholder="Ingresa el APELLIDO PATERNO"
           [(ngModel)]="usuario.app"
           (keydown)="validacionCaracteres($event)"
-          (ngModelChange)="actualizarCorreo()"
           required=""
           #app="ngModel"
         />
@@ -114,7 +113,7 @@
           name="fechaNacimiento"
           class="form-control"
           placeholder="Ingresa la FECHA DE NACIMIENTO"
-          [(ngModel)]="usuario.fechaNacimiento"
+          [(ngModel)]="fechaString"
           (change)="calcularEdad()"
           required=""
           #fechaNacimiento="ngModel"
