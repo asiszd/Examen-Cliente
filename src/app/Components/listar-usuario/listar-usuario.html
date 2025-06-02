@@ -1,0 +1,57 @@
+<div class="card">
+  <div class="card-header">
+    <h3>Listado de pedidos</h3>
+    <button type="button" class="btn btn-outline-primary" (click)="nuevo()">
+      Nuevo
+    </button>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">NOMBRE COMPLETO</th>
+          <th scope="col">SEXO</th>
+          <th scope="col">CORREO</th>
+          <th scope="col">FECHA DE NACIMIENTO</th>
+          <th scope="col">FECHA DE INSCRIPCIÓN</th>
+          <th scope="col">ROL</th>
+          <th scope="col">EDITAR</th>
+          <th scope="col">ELIMINAR</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (usuario of usuarios; track usuario.id) {
+        <tr>
+          <th scope="row">{{usuario.id}}</th>
+          <td>{{usuario.nombre + ' ' + usuario.app + ' ' + usuario.apm}}</td>
+          <td>{{usuario.sexo}}</td>
+          <td>{{usuario.correo}}</td>
+          <td>{{usuario.fechaNacimiento | date:"dd/MM/yyyy"}}</td>
+          <td>{{usuario.fechaCreacion | date:"dd/MM/yyyy"}}</td>
+          <td>{{usuario.rolId.privilegio}}</td>
+          <td style="text-align: center">
+            <button
+              type="button"
+              class="btn btn-outline-info"
+              (click)="editar(usuario.id)"
+            >
+              Editar
+            </button>
+          </td>
+          <td style="text-align: center">
+            <button
+              type="button"
+              class="btn btn-outline-danger"
+              (click)="eliminar(usuario);"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

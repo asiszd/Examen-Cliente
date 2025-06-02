@@ -1,0 +1,29 @@
+<main class="main">
+  <div class="content">
+    <div class="left-side">
+      <h1>{{ title }}</h1>
+      <p>Sistema de usuarios y roles</p>
+    </div>
+    <div class="divider" role="separator" aria-label="Divider"></div>
+    <div class="right-side">
+      <div class="d-grid gap-2 mx-auto">
+        <button
+          type="button"
+          class="btn btn-outline-info"
+          (click)="listarRoles()"
+        >
+          Listar Roles
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-info"
+          (click)="listarUsuarios()"
+        >
+          Listar Usuarios
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<router-outlet />

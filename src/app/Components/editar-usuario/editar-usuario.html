@@ -1,0 +1,101 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">EDITAR USUARIO</h4>
+    </div>
+    <div class="card-body">
+      <label for="idPedido">ID USUARIO</label>
+      <input
+        type="number"
+        class="form-control"
+        name="id"
+        placeholder="Ingresa el nuevo ID"
+        [(ngModel)]="usuario.id"
+      />
+
+      <label for="total">NOMBRE</label>
+      <input
+        type="text"
+        name="nombre"
+        class="form-control"
+        placeholder="Ingresa el total del pedido"
+        [(ngModel)]="usuario.nombre"
+        (ngModelChange)="actualizarCorreo()"
+      />
+
+      <label for="total">APELLIDO PATERNO</label>
+      <input
+        type="text"
+        name="app"
+        class="form-control"
+        placeholder="Ingresa el total del pedido"
+        [(ngModel)]="usuario.app"
+        (ngModelChange)="actualizarCorreo()"
+      />
+
+      <label for="total">APELLIDO MATERNO</label>
+      <input
+        type="text"
+        name="apm"
+        class="form-control"
+        placeholder="Ingresa el total del pedido"
+        [(ngModel)]="usuario.apm"
+      />
+
+      <label for="status">SEXO</label>
+      <select name="sexo" class="form-control" [(ngModel)]="usuario.sexo">
+        <option value="MASCULINO">MASCULINO</option>
+        <option value="FEMENINO">FEMENINO</option>
+        <option value="N/E">PREFIERO NO ESPECIFICAR</option>
+      </select>
+
+      <label for="total">CORREO</label>
+      <input
+        type="email"
+        name="correo"
+        class="form-control"
+        placeholder="Ingresa el total del pedido"
+        [(ngModel)]="usuario.correo"
+        disabled=""
+        required=""
+      />
+
+      <label for="fecha">FECHA DE NACIMIENTO</label>
+      <input
+        type="date"
+        name="fechaNacimiento"
+        class="form-control"
+        placeholder="Ingresa la fecha"
+        [(ngModel)]="usuario.fechaNacimiento"
+        (change)="calcularEdad()"
+      />
+      <div *ngIf="!esMayorDeEdad">
+        <small style="color: red">El usuario debe ser mayor de 18 años.</small>
+      </div>
+
+      <label for="clienteId">ROL</label>
+      <select name="rolId" class="form-control" [(ngModel)]="usuario.rolId">
+        @for (rol of roles; track rol.id) {
+
+        <option [ngValue]="rol">{{rol.privilegio}}</option>
+        }
+      </select>
+
+      <!--<input
+        type="number"
+        class="form-control"
+        placeholder="Ingresa el ID del cliente"
+        [(ngModel)]="pedido.clienteId.idCliente"
+      />-->
+    </div>
+    <div class="card-footer" style="text-align: center">
+      <button
+        class="btn btn-outline-warning"
+        (click)="guardar();"
+        [disabled]="!esMayorDeEdad"
+      >
+        EDITAR
+      </button>
+    </div>
+  </div>
+</div>

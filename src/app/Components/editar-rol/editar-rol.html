@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">EDITAR ROL</h4>
+    </div>
+    <div class="card-body">
+      <label for="id">ID ROL</label>
+      <input
+        type="number"
+        class="form-control"
+        name="id"
+        placeholder="Ingresa el nuevo ID"
+        [(ngModel)]="rol.id"
+        required=""
+        min="1"
+        disabled=""
+      />
+      <label for="nombre">PRIVILEGIO</label>
+      <input
+        type="text"
+        name="privilegio"
+        class="form-control"
+        placeholder="Ingresa el nombre del privilegio"
+        [(ngModel)]="rol.privilegio"
+        required=""
+      />
+
+      <div class="card-footer" style="text-align: center">
+        <button class="btn btn-outline-warning" (click)="editar();">
+          EDITAR
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

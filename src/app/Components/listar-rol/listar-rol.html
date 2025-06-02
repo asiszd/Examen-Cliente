@@ -1,0 +1,47 @@
+<div class="card w-100 p-6">
+  <div class="card-header">
+    <h3 class="card-title">lista de Roles</h3>
+    <button type="button" class="btn btn-outline-primary" (click)="nuevo()">
+      Nuevo Rol
+    </button>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">ID_ROL</th>
+          <th scope="col">PRIVILEGIO</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (rol of roles; track rol.id) {
+        <tr>
+          <th scope="row">{{rol.id}}</th>
+          <td>{{rol.privilegio}}</td>
+          <td style="text-align: center">
+            <button
+              type="button"
+              class="btn btn-outline-info"
+              (click)="this.editar(rol.id)"
+            >
+              Editar
+            </button>
+          </td>
+          <td style="text-align: center">
+            <button
+              type="button"
+              class="btn btn-outline-danger"
+              (click)="eliminar(rol);"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
