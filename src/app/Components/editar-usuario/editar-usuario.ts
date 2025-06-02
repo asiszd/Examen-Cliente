@@ -53,7 +53,11 @@ export class EditarUsuario implements OnInit {
       const nombreLimpio = this.usuario.nombre.trim().toUpperCase();
       const apellidoLimpio = this.usuario.app.trim().toUpperCase();
       this.usuario.correo =
-        nombreLimpio + '.' + apellidoLimpio + '@ENUCOM.COM.MX';
+        nombreLimpio +
+        '.' +
+        apellidoLimpio +
+        '@ENUCOM.COM.MX'.split(' ').join('');
+      this.usuario.correo;
     } else {
       this.usuario.correo = '';
     }
@@ -75,6 +79,17 @@ export class EditarUsuario implements OnInit {
     }
 
     this.esMayorDeEdad = edad >= 18;
+    console.log(this.esMayorDeEdad);
+  }
+
+  validacionCaracteres(event: KeyboardEvent): void {
+    const key = event.key;
+    // Expresión regular: solo letras a-z (mayúsculas o minúsculas) y espacios.
+    const soloLetras = /^[a-zA-Z\s]+$/;
+
+    if (!soloLetras.test(key)) {
+      event.preventDefault();
+    }
   }
 
   guardar() {

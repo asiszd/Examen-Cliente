@@ -4,32 +4,50 @@
       <h4 class="card-title">EDITAR ROL</h4>
     </div>
     <div class="card-body">
-      <label for="id">ID ROL</label>
-      <input
-        type="number"
-        class="form-control"
-        name="id"
-        placeholder="Ingresa el nuevo ID"
-        [(ngModel)]="rol.id"
-        required=""
-        min="1"
-        disabled=""
-      />
-      <label for="nombre">PRIVILEGIO</label>
-      <input
-        type="text"
-        name="privilegio"
-        class="form-control"
-        placeholder="Ingresa el nombre del privilegio"
-        [(ngModel)]="rol.privilegio"
-        required=""
-      />
-
-      <div class="card-footer" style="text-align: center">
-        <button class="btn btn-outline-warning" (click)="editar();">
-          EDITAR
-        </button>
-      </div>
+      <form ngNativeValidate (ngSubmit)="editar()" #form="ngForm">
+        <label for="id">ID ROL</label>
+        <input
+          type="number"
+          class="form-control"
+          name="id"
+          placeholder="Ingresa el nuevo ID"
+          [(ngModel)]="rol.id"
+          required=""
+          min="1"
+          disabled=""
+        />
+        <label for="nombre"
+          >PRIVILEGIO <small style="color: red">*</small></label
+        >
+        <input
+          type="text"
+          name="privilegio"
+          class="form-control"
+          placeholder="Ingresa el nombre del privilegio"
+          [(ngModel)]="rol.privilegio"
+          (ngModelChange)="validarRol()"
+          required
+          #privilegio="ngModel"
+        />
+        <div *ngIf="privilegio.invalid && privilegio.touched">
+          <small style="color: red"
+            >El campo PRIVILEGIO es obligatorio y debe ser válido.</small
+          >
+        </div>
+        <div *ngIf="existe">
+          <small style="color: red"
+            >Ya existe un Rol registrado con ese nombre.</small
+          >
+        </div>
+        <div class="card-footer" style="text-align: center">
+          <button
+            class="btn btn-outline-warning"
+            [disabled]="existe && form.invalid"
+          >
+            EDITAR
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

@@ -1,20 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Ws } from '../../Service/ws';
 import { Router } from '@angular/router';
 import { Rol } from '../../../Entidad/Rol';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-nuevo-rol',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './nuevo-rol.html',
   styleUrl: './nuevo-rol.css',
 })
-export class NuevoRol {
+export class NuevoRol implements OnInit {
   constructor(private service: Ws, private router: Router) {}
 
   rol = new Rol();
+  roles: Rol[] = [];
+  existe: boolean = false;
+
+  ngOnInit(): void {
+    this.getRoles();
+  }
+
+  getRoles() {
+    this.service.listarRoles().subscribe((respuesta) => {
+      this.roles = respuesta;
+    });
+  }
+
+  validarRol() {
+    this.existe = this.roles.some((r) => {
+      if (r.privilegio == this.rol.privilegio) {
+        return true;
+      }
+      return false;
+    });
+  }
 
   guardar() {
     this.service.guardarRoles(this.rol).subscribe(

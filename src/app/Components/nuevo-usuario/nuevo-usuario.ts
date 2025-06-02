@@ -5,16 +5,18 @@ import { Usuario } from '../../../Entidad/Usuario';
 import { Rol } from '../../../Entidad/Rol';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-nuevo-usuario',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './nuevo-usuario.html',
   styleUrl: './nuevo-usuario.css',
 })
 export class NuevoUsuario implements OnInit {
   usuario = new Usuario();
   roles: Rol[] = [];
+  esMayorDeEdad: boolean = true;
 
   constructor(private service: Ws, private router: Router) {}
 
@@ -33,10 +35,41 @@ export class NuevoUsuario implements OnInit {
       const nombreLimpio = this.usuario.nombre.trim().toUpperCase();
       const apellidoLimpio = this.usuario.app.trim().toUpperCase();
       this.usuario.correo =
-        nombreLimpio + '.' + apellidoLimpio + '@ENUCOM.COM.MX';
+        nombreLimpio +
+        '.' +
+        apellidoLimpio.split(' ').join('') +
+        '@ENUCOM.COM.MX';
     } else {
       this.usuario.correo = '';
     }
+  }
+
+  validacionCaracteres(event: KeyboardEvent): void {
+    const key = event.key;
+    // Expresión regular: solo letras a-z (mayúsculas o minúsculas) y espacios.
+    const soloLetras = /^[a-zA-Z\s]+$/;
+
+    if (!soloLetras.test(key)) {
+      event.preventDefault();
+    }
+  }
+
+  calcularEdad(): void {
+    if (!this.usuario.fechaNacimiento) {
+      this.esMayorDeEdad = false;
+      return;
+    }
+
+    const nacimiento = new Date(this.usuario.fechaNacimiento);
+    const hoy = new Date();
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    const mes = hoy.getMonth() - nacimiento.getMonth();
+
+    if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+      edad--;
+    }
+
+    this.esMayorDeEdad = edad >= 18;
   }
 
   guardar() {
